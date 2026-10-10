@@ -1,0 +1,61 @@
+
+name: Build DocuMind Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "DocuMind_Test_Build_0.1/**"
+      - ".github/workflows/main.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        working-directory: DocuMind_Test_Build_0.1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: DocuMind_Test_Build_0.1/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Run automated tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Build Windows EXE
+        run: >
+          python -m PyInstaller
+          --noconfirm
+          --clean
+          --onefile
+          --windowed
+          --name DocuMind
+          --collect-all fitz
+          main.py
+
+      - name: Upload DocuMind EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: DocuMind-Windows-x64
+          path: DocuMind_Test_Build_0.1/dist/DocuMind.exe
+          if-no-files-found: error
+          retention-days: 14
