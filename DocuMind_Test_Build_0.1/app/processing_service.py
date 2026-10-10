@@ -30,7 +30,11 @@ class ProcessingService:
             status, error = "error", doc.error
         else:
             try:
-                analysis = self.analyzer.analyze(doc.text, doc.file_name)
+                analysis = self.analyzer.analyze(doc.text, doc.file_name, metadata=doc.metadata)
+                analysis["full_text"] = doc.text
+                analysis["metadata"] = doc.metadata
+                analysis["attachments"] = doc.attachments
+                analysis["extraction_warnings"] = doc.extraction_warnings
                 status, error = "ok", ""
             except Exception as exc:
                 logger.exception("Ошибка анализа %s", path)
@@ -39,7 +43,8 @@ class ProcessingService:
         self.database.save_document({
             "file_path":str(path), "file_name":path.name, "file_type":path.suffix.lower().lstrip("."),
             "file_size":stat.st_size, "modified_at":modified, "sha256":sha,
-            "status":status, "error":error, "analysis":analysis
+            "status":status, "error":error, "analysis":analysis,
+            "full_text": doc.text if doc.status == "ok" else "", "metadata": doc.metadata if doc.status == "ok" else {}
         })
         return self._record(path, stat.st_size, modified, status, error, analysis, cached=False, sha=sha)
 
@@ -50,6 +55,14 @@ class ProcessingService:
             "file_size":size, "modified_at":modified, "processed_at":datetime.now(timezone.utc).isoformat(),
             "status":status, "error":error, "cached":cached, "sha256":sha,
             "fields":analysis.get("fields", {}), "matches":analysis.get("matches", []),
+            "full_text":analysis.get("full_text", ""), "metadata":analysis.get("metadata", {}),
+            "sender":analysis.get("sender", ""), "recipient":analysis.get("recipient", ""), "subject":analysis.get("subject", ""),
+            "document_type":analysis.get("document_type", ""), "document_number":analysis.get("document_number", ""),
+            "document_date":analysis.get("document_date", ""), "contract_number":analysis.get("contract_number", ""),
+            "required_actions":analysis.get("required_actions", []), "deadline":analysis.get("deadline", ""),
+            "needs_reply":analysis.get("needs_reply", False), "confidence":analysis.get("confidence", "low"),
+            "review_required":analysis.get("review_required", True), "attachments":analysis.get("attachments", []),
+            "extraction_warnings":analysis.get("extraction_warnings", []),
             "unmatched_fields":analysis.get("unmatched_fields", []), "summary":analysis.get("summary", ""),
         }
 

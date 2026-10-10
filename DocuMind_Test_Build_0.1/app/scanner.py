@@ -1,7 +1,9 @@
 from pathlib import Path
 from typing import Iterable
 
-SUPPORTED = {".pdf", ".docx", ".xlsx"}
+# MSG/EML support added in DocuMind 0.2. XLSX remains supported as a source document.
+SUPPORTED = {".pdf", ".docx", ".xlsx", ".eml", ".msg"}
+
 
 def scan_folders(folders, recursive=True, skip_hidden=True) -> Iterable[Path]:
     seen = set()
@@ -11,9 +13,9 @@ def scan_folders(folders, recursive=True, skip_hidden=True) -> Iterable[Path]:
             continue
         iterator = base.rglob("*") if recursive else base.glob("*")
         for path in iterator:
-            if not path.is_file() or path.suffix.lower() not in SUPPORTED:
-                continue
             try:
+                if not path.is_file() or path.suffix.lower() not in SUPPORTED:
+                    continue
                 resolved = path.resolve()
                 if skip_hidden and any(part.startswith(".") for part in resolved.parts):
                     continue

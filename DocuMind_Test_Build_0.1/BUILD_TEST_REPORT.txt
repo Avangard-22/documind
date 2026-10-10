@@ -1,10 +1,8 @@
-DocuMind Test Build 0.1 — local build checks
+DocuMind 0.2 — notes for test build
 
-{
-  "compileall_returncode": 0,
-  "compileall_stdout": "",
-  "compileall_stderr": "Spreadsheet runtime warmup failed during python startup\nTraceback (most recent call last):\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py\", line 26, in warm_spreadsheet_runtime_on_startup\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 785, in warm_spreadsheet_runtime\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 718, in _warm_feature_flows\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 509, in _warm_drawing_and_image_flows\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/generated/interface/models.py\", line 32861, in bring_to_front\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/remote.py\", line 764, in __call__\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/client.py\", line 175, in call\nartifact_tool.rpc.client.RemoteError: Element ordering requires an owning element collection.\n",
-  "tests_returncode": 0,
-  "tests_stdout": "",
-  "tests_stderr": "Spreadsheet runtime warmup failed during python startup\nTraceback (most recent call last):\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py\", line 26, in warm_spreadsheet_runtime_on_startup\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 785, in warm_spreadsheet_runtime\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 718, in _warm_feature_flows\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py\", line 509, in _warm_drawing_and_image_flows\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/generated/interface/models.py\", line 32861, in bring_to_front\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/remote.py\", line 764, in __call__\n  File \"/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/client.py\", line 175, in call\nartifact_tool.rpc.client.RemoteError: Element ordering requires an owning element collection.\ntest_create_and_update_existing_path (test_excel_writer.ExcelWriterTests.test_create_and_update_existing_path) ... ok\ntest_default_rules_extract_fields (test_rules_engine.RulesEngineTests.test_default_rules_extract_fields) ... ok\ntest_invalid_regex_rejected (test_rules_engine.RulesEngineTests.test_invalid_regex_rejected) ... ok\ntest_save_and_reload (test_rules_engine.RulesEngineTests.test_save_and_reload) ... ok\ntest_supported_extensions (test_scanner.ScannerTests.test_supported_extensions) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.030s\n\nOK\n"
-}
+Changes: EML/MSG metadata and body extraction; optional OCR attempt for scanned PDF pages; structured correspondence heuristics; SQLite full_text/metadata migration; Excel register/full-text/attachments sheets; added tests.
+
+Important: No claim of a real Windows GUI/EXE test. Tesseract OCR is an external executable and must be installed/configured separately. EML/MSG attachment contents are listed but not yet recursively extracted. The analyzer is heuristic, not an LLM.
+
+Run tests:
+python -m unittest discover -s tests -v
