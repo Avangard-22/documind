@@ -23,7 +23,7 @@ class DocumentAnalyzer:
                 return match.group(1).strip(" \t:;,.\r\n")
         return ""
 
-    def analyze(self, text, file_name="", metadata=None):
+    def analyze(self, text, file_name="", metadata=None): 
         metadata = metadata or {}
         result = self.engine.analyze(text)
         fields = result["fields"]
@@ -59,4 +59,4 @@ class DocumentAnalyzer:
             "document_type": doc_type, "document_number": number, "document_date": doc_date,
             "contract_number": contract, "required_actions": action_lines, "deadline": deadline,
             "needs_reply": needs_reply, "confidence": confidence, "review_required": review_required,
-        }
+        }   
