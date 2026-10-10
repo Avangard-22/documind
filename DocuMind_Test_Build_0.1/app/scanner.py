@@ -25,3 +25,4 @@ def scan_folders(folders, recursive=True, skip_hidden=True) -> Iterable[Path]:
                     yield resolved
             except OSError:
                 continue
+ 
