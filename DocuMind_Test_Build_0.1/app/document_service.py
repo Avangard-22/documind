@@ -189,3 +189,4 @@ class DocumentService:
         finally:
             try: msg.close()
             except Exception: pass
+  
