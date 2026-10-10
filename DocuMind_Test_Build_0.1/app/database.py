@@ -90,3 +90,4 @@ class DocuMindDatabase:
             item["metadata"] = json.loads(item.pop("metadata_json", "{}") or "{}")
             result.append(item)
         return result
+  
