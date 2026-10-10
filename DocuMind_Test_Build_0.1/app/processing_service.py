@@ -98,3 +98,4 @@ class ProcessingService:
             "cancelled":cancelled, "excel_rows_added":rows_added, "export_error":export_error,
             "errors":errors, "output_path":str(output_path), "records":records,
         }
+  
